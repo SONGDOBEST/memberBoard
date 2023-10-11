@@ -27,10 +27,10 @@ public class MemberEntity extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String memberName;
 
-    @Column(length = 30, nullable = false, unique = true)
+    @Column(length = 30, nullable = false)
     private String memberMobile;
 
-    @Column(nullable = false)
+    @Column
     private String memberBirth;
 
     @Column
@@ -46,10 +46,10 @@ public class MemberEntity extends BaseEntity {
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
-        memberEntity.setMemberPassword(memberEntity.getMemberPassword());
-        memberEntity.setMemberName(memberEntity.getMemberName());
-        memberEntity.setMemberMobile(memberEntity.getMemberMobile());
-        memberEntity.setMemberBirth(memberEntity.getMemberBirth());
+        memberEntity.setMemberPassword(memberDTO.getMemberPassword());
+        memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberMobile(memberDTO.getMemberMobile());
+        memberEntity.setMemberBirth(memberDTO.getMemberBirth());
         memberEntity.setFileAttached(0);
 
         return memberEntity;
@@ -58,10 +58,10 @@ public class MemberEntity extends BaseEntity {
     public static MemberEntity toSaveEntityWithFile(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
-        memberEntity.setMemberPassword(memberEntity.getMemberPassword());
-        memberEntity.setMemberName(memberEntity.getMemberName());
-        memberEntity.setMemberMobile(memberEntity.getMemberMobile());
-        memberEntity.setMemberBirth(memberEntity.getMemberBirth());
+        memberEntity.setMemberPassword(memberDTO.getMemberPassword());
+        memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberMobile(memberDTO.getMemberMobile());
+        memberEntity.setMemberBirth(memberDTO.getMemberBirth());
         memberEntity.setFileAttached(1);
 
         return memberEntity;

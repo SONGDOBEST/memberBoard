@@ -22,9 +22,9 @@ public class MemberController {
         return "memberPages/memberSave";
     }
     @PostMapping("/save")
-    public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
+    public String save(@ModelAttribute MemberDTO memberDTO) throws IOException{
         memberService.save(memberDTO);
-        return "redirect:/";
+        return "memberPages/loginPage";
     }
 
     @PostMapping("/dup-check")
@@ -35,5 +35,9 @@ public class MemberController {
         }else{
             return new ResponseEntity<>("사용불가", HttpStatus.CONFLICT);
         }
+    }
+    @GetMapping("/login")
+    public String loginForm(){
+        return "memberPages/loginPage";
     }
 }
