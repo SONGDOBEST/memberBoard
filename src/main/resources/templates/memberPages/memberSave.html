@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+
+<form action="/member/save" method="post" class="card row-cols-4 align-content-center" enctype="multipart/form-data">
+  <input type="text" name="memberEmail" placeholder="이메일을 입력하세요 !" onblur="email_dupcheck()"><br>
+  <div id="dup-check-area">
+
+  </div>
+  비밀번호: <input type="text" name="memberPassword" placeholder="비밀번호를 입력하세요 !"><br>
+  이름 : <input type="text" name="memberName" placeholder="이름을 입력하세요 !"><br>
+  전화번호 : <input type="text" name="memberMobile" placeholder="010-xxxx-xxxx"><br>
+  생년월일 : <input type="date" name="memberBirth"><br>
+  프로필사진 : <input type="file" name="memberFile" class="row-cols-4"><br>
+  <input type="submit" value="회원가입!" class="btn btn-primary">
+</form>
+
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+<script th:inline="javascript">
+  const email_dupcheck = () => {
+    const email = document.querySelector(`[name="memberEmail"]`).value;
+    const dupCheckArea = document.querySelector("#dup-check-area");
+    axios({
+      method : "post",
+      url : "/member/dup-check",
+      data : {
+        memberEmail : email
+      }
+    }).then(res => {
+      console.log("res", res);
+      if(res.data == "사용가능"){
+        let result = "<p>\'사용가능한이메일입니다\'</p>"
+        dupCheckArea.innerHTML = result;
+      }else{
+        let result = "<p>\'사용불가한메일입니다\'</p>"
+        dupCheckArea.innerHTML = result;
+      }
+    }).catch(err => {
+      //요청 실패 시 서버에서 4xx, 5xx로 응답
+      console.log("err", err);
+    })
+  }
+</script>
+</html>
