@@ -25,4 +25,24 @@
 <div th:replace="~{component/footer :: footer}"></div>
 
 </body>
+<script th:inline="javascript">
+    const login_fn = () => {
+        let loginEmail = document.querySelector(`[name="loginEmail"]`).value;
+        let loginPassword = document.querySelector(`[name="loginPassword"]`).value;
+        axios({
+            url : "/member/login",
+            method : "post",
+            data : {
+                memberEmail: loginEmail,
+                memberPassword: loginPassword
+            }
+        }).then(res => {
+            alert("로그인 성공!")
+            location.href="/main"
+        }).catch(err => {
+            alert("로그인 실패!")
+            location.href="/member/login"
+        })
+    }
+</script>
 </html>

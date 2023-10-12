@@ -60,4 +60,26 @@ public class MemberService {
             return  savedEntity.getId();
         }
     }
+
+    public boolean login(MemberDTO memberDTO) {
+        /*
+            DB에서 로그인하는 사용자의 이메일로 조회한 결과를 가져와서
+            비밀번호가 일치하는지 비교한 뒤 로그인 성공 여부를 판단
+
+            findByMemberEmail()
+            select * from member_table where member_email = ?
+
+            findById()
+            => select * from member_table where id = ?
+         */
+
+        //email과 password 둘 다 만족하는 결과가 있으면 로그인 성공, 아니면 실패
+        Optional<MemberEntity> optionalMemberEntity =
+                memberRepository.findByMemberEmailAndMemberPassword(memberDTO.getMemberEmail(), memberDTO.getMemberPassword());
+        if(optionalMemberEntity.isPresent()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
