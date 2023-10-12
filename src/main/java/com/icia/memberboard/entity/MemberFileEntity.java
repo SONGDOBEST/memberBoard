@@ -21,7 +21,7 @@ public class MemberFileEntity {
     @Column
     private String storedFileName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id") // DB에 생성될 참조 칼럼의 이름
     private MemberEntity memberEntity; // 부모 엔티티 타입으로 정의
 

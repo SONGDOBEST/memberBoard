@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/loginNav :: loginNav}"></div>
+<h2 class="text-center mt-2">mypage</h2>
+<div class="container mt-5 mb-5">
+  <div class="card card p-3 mt-2 col-4">
+    <div class="card-header">
+      <h3>[[${session.loginMember.memberName}]]님의 정보</h3>
+    </div>
+    <div class="card-body">
+      <p>이메일: [[${member.memberEmail}]]</p> <br>
+      <p>이름: [[${member.memberName}]]</p> <br>
+      <p>전화번호: [[${member.memberMobile}]]</p> <br>
+      <p>가입일시: [[${member.createdAt}]]</p> <br>
+      <p>생년월일: [[${member.memberBirth}]]</p> <br>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-secondary me-2" onclick="update_fn()">정보수정</button> <button class="btn btn-danger" id="delete-button">회원탈퇴</button>
+    </div>
+    <script>
+      const deleteStart = document.querySelector("#delete-button");
+      deleteStart.addEventListener("click", (e)=>{
+        let deleteArea = document.querySelector("#delete-area");
+        let deleteForm = "<p>삭제하려면 비밀번호를 입력하세요</p>" +
+                "<input type='text' placeholder='비밀번호입력' name='deletePassword'>" +
+                "<button id='delete-button2'>회원탈퇴</button>";
+        deleteArea.innerHTML= deleteForm;
+      })
+      const deleteFn = document.querySelector("#delete-button2");
+      deleteFn.addEventListener("click", (f)=>{
+        let loginPassword = [[${member.memberPassword}]];
+        let deletePassword = document.getElementsByName("deletePassword");
+        if(loginPassword == deletePassword){
+          axios({
+            url: `/member/${id}`,
+            method : "delete",
+          }).then(res => {
+            alert("회원 탈퇴 성공");
+            location.href="/main";
+          }).catch(err => {
+            alert("삭제 실패!");
+          });
+        }
+      })
+    </script>
+  </div>
+  <div id="delete-area" class="card card p-3 col-4 ms-3">
+
+  </div>
+</div>
+
+<div th:replace="~{component/footer :: footer}"></div>
+
+</body>
+<script th:inline="javascript">
+  const update_fn() = () => {
+
+  }
+  // document.getElementById("delete-button").addEventListener("click", delete_form());
+  // function delete_form(){
+  //   let deleteArea = document.querySelector("#delete-area");
+  //   let deleteForm = "<p>삭제하려면 비밀번호를 입력하세요</p>" +
+  //           "<input type='text' placeholder='비밀번호입력' name='deletePassword'><button onclick='delete_fn([[${member.id}]])' value='회원탈퇴'></button>";
+  //   deleteArea.innerHTML= deleteForm;
+  // }
+  // const delete_fn = (id) => {
+  //   let loginPassword = [[${member.memberPassword}]];
+  //   let deletePassword = document.getElementsByName("deletePassword");
+  //   if(loginPassword == deletePassword){
+  //     axios({
+  //       url: `/member/${id}`,
+  //       method : "delete",
+  //     }).then(res => {
+  //       alert("회원 탈퇴 성공");
+  //       location.href="/main";
+  //     }).catch(err => {
+  //       alert("삭제 실패!");
+  //     });
+  //   }
+  // }
+</script>
+</html>

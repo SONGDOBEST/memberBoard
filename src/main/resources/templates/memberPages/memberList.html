@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/loginNav :: loginNav}"></div>
+
+<div class="container mt-5 mb-5">
+    <table class="table table-striped">
+        <tr>
+            <th>id</th>
+            <th>이메일</th>
+            <th>비밀번호</th>
+            <th>이름</th>
+            <th>생일</th>
+            <th>전화번호</th>
+            <th>사진여부</th>
+            <th>가입날짜</th>
+        </tr>
+        <tr th:each="member: ${memberList}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.memberEmail}"></td>
+            <td th:text="${member.memberPassword}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberBirth}"></td>
+            <td th:text="${member.memberMobile}"></td>
+            <td th:if="${member.fileAttached == 1}">사진 있음</td>
+            <td th:if="${member.fileAttached == 0}">사진 없음</td>
+            <td th:text="${member.createdAt}"></td>
+        </tr>
+    </table>
+</div>
+
+<div th:replace="~{component/footer :: footer}"></div>
+
+</body>
+</html>

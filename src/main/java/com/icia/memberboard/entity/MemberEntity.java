@@ -39,7 +39,7 @@ public class MemberEntity extends BaseEntity {
     // 참조관계 정의
     // mappedBy: 자식 엔티티에 정의한 필드 이름
     // cascade, orphanRemoval: 부모 데이터 삭제시 자식 데이터도 삭제
-    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MemberFileEntity> memberFileEntityList = new ArrayList<>();
 
 

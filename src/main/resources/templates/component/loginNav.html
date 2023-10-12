@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="nav" id="nav">
+<div th:fragment="loginNav" id="loginNav">
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid ms-5 me-5">
             <a class="navbar-brand" href="#">Board</a>
@@ -17,10 +17,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/board/list">글 목록</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/member/mypage">내정보</a>
+                    <li class="nav-item" id="login-area">
+
                     </li>
-                    <li class="nav-item" th:if="${session.loginEmail == 'admin'}">
+                    <li>
+                        <a class="nav-link" href="/">홈으로</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.loginMember.memberEmail== 'admin'}">
                         <a class="nav-link" href="/member/list">회원목록</a>
                     </li>
                 </ul>
@@ -34,12 +37,22 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
+            <script th:inline="javascript">
+                const loginArea = document.getElementById("login-area");
+                const loginName = [[${session.loginMember.memberName}]];
+
+                loginArea.innerHTML = "<a class='nav-link' onclick='detail_fn()'>" + loginName + "님</a>"
+
+                const detail_fn = () => {
+                    let id = [[${session.loginMember.id}]];
+                    location.href="/member/mypage?id=" + id;
+                }
+            </script>
         </div>
     </nav>
-    <script>
-
-    </script>
 </div>
-
 </body>
+<script th:inline="javascript">
+
+</script>
 </html>

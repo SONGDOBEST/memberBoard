@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -61,7 +64,8 @@ public class MemberService {
         }
     }
 
-    public boolean login(MemberDTO memberDTO) {
+    public MemberDTO login(MemberDTO memberDTO) {
+        MemberDTO memberDTO1 = new MemberDTO();
         /*
             DB에서 로그인하는 사용자의 이메일로 조회한 결과를 가져와서
             비밀번호가 일치하는지 비교한 뒤 로그인 성공 여부를 판단
@@ -77,9 +81,28 @@ public class MemberService {
         Optional<MemberEntity> optionalMemberEntity =
                 memberRepository.findByMemberEmailAndMemberPassword(memberDTO.getMemberEmail(), memberDTO.getMemberPassword());
         if(optionalMemberEntity.isPresent()){
-            return true;
+            MemberEntity memberEntity = optionalMemberEntity.orElseThrow(()-> new NoSuchElementException());
+            return memberDTO1.toDTO(memberEntity);
         }else{
-            return false;
+            return null;
         }
+    }
+
+    public List<MemberDTO> findAll() {
+        List<MemberEntity> memberEntityList = memberRepository.findAll();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        for(MemberEntity memberEntity : memberEntityList){
+            memberDTOList.add(MemberDTO.toDTO(memberEntity));
+        }
+        return memberDTOList;
+    }
+
+    public MemberDTO findById(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return MemberDTO.toDTO(memberEntity);
+    }
+
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
     }
 }
